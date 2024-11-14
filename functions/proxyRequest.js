@@ -32,12 +32,15 @@ exports.handler = async (event) => {
             headers: { 'x-forwarded-for': '118.32.128.188' } // 지정된 IP
         });
 
-        console.log(response);
-
+        const responseText = await response.text(); 
         return {
-            statusCode: 200,
-            body: JSON.stringify({ message: "Request sent successfully!" })
+            statusCode: response.status,
+            body: JSON.stringify({
+                message: "Request sent successfully!",
+                responseText: responseText
+            })
         };
+
     } catch (error) {
         return {
             statusCode: 500,
