@@ -36,7 +36,7 @@ exports.handler = async (event) => {
         return {
             statusCode: response.status,
             body: JSON.stringify({
-                message: "Request sent successfully!",
+                message: responseText,
                 responseText: responseText
             })
         };
