@@ -7,30 +7,27 @@
 </head>
 <body>
     <h1>Request Sender</h1>
-    <label for="email">Email:</label>
-    <input type="text" id="email" placeholder="Enter email">
-    <label for="request_id">Request ID:</label>
-    <input type="text" id="request_id" placeholder="Enter request ID">
-    <button onclick="sendRequest()">Send Request</button>
+    
+    <button onclick="sendRequest('jette@zigbang.com', 'U4P52R8FQ')">제떼출근</button>
+    <button onclick="sendRequest('sonar@zigbang.com', 'U02RK7JQYSK')">소나출근</button>
+    <button onclick="sendRequest('jgcman@zigbang.com', 'U02A2G9HNJ3')">제이미출근</button>
+    <button onclick="sendRequest('phil@zigbang.com', 'U025TJBNYGL')">필립출근</button>
 
     <script>
-        async function sendRequest() {
-            const email = document.getElementById("email").value;
-            const request_id = document.getElementById("request_id").value;
+        async function sendRequest(email, request_id) {
+            try {
+                const response = await fetch('/.netlify/functions/proxyRequest', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, request_id })
+                });
 
-            if (!email || !request_id) {
-                alert("Please enter both email and request ID");
-                return;
+                const result = await response.json();
+                alert(result.message || "Request sent successfully!");
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while sending the request.');
             }
-
-            const response = await fetch('/.netlify/functions/proxyRequest', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, request_id })
-            });
-
-            const result = await response.json();
-            alert(result.message || "Request sent successfully!");
         }
     </script>
 </body>
